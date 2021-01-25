@@ -1,0 +1,13 @@
+name: sdc2-ver
+channels:
+ - conda-forge
+ - defaults
+dependencies:
+  - sofia-2
+  - python 3.8.*
+  - astropy
+  - astroquery
+  - matplotlib
+  - numpy
+  - jupyter
+  - pandas

@@ -1,0 +1,36 @@
+# SoFiA 2 parameter file for the official SoFiA test datacube
+
+
+# Global settings
+
+pipeline.verbose           =  false
+pipeline.pedantic          =  false
+pipeline.threads           =  0
+
+
+# Input
+
+input.data                 =  ../data/development/sky_dev.fits
+input.region               =  
+input.gain                 =  
+input.noise                =  
+input.weights              =  
+input.mask                 =  
+input.invert               =  false
+
+# Output
+
+output.directory           =  ./test2
+output.filename            =  sofia_test_output
+output.writeCatASCII       =  true
+output.writeCatXML         =  true
+output.writeCatSQL         =  false
+output.writeNoise          =  false
+output.writeFiltered       =  false
+output.writeMask           =  true
+output.writeMask2d         =  true
+output.writeRawMask        =  false
+output.writeMoments        =  true
+output.writeCubelets       =  false
+output.marginCubelets      =  10
+output.overwrite           =  true

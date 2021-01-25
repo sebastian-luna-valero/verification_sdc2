@@ -1,5 +1,6 @@
 import os
 import shutil
+import re
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -46,33 +47,32 @@ def run_sofia(parameters, outputdir):
         os.system(command)
     return
 
+def read_sofia_header(filename):
+    with open(filename, 'r') as f:
+        head_line = f.readlines()[10]
+    head = re.split('\s+', head_line.strip('\n'))[1:] # 1: to remove #
+    return head
+        
 def sofia2cat(catalog):
-    return 
+    head = read_sofia_header(catalog)
+    raw_cat = pd.read_csv(catalog, delim_whitespace=True, header=None, names=head, comment='#')
+    raw_cat.sort_values(by='f_sum', ascending=False, inplace=True)
+    raw_cat_filtered = raw_cat[raw_cat['kin_pa']>0]
+    print(raw_cat_filtered[['x', 'y', 'ell_maj', 'f_sum', 'freq', 'kin_pa', 'w20']])
+    return raw_cat_filtered
+
 
 def main():
     download_data(data_parameters, force=False)
     run_sofia(parameters=param_development_small,
               outputdir='development_small')
-    sofia2cat(catalog=dev_small_cat)
-    
+    raw_cat = sofia2cat(catalog=dev_small_cat)
+    # Now needs to convert the sofia raw sofia catalog that has 
+    # 'x', 'y', 'ell_maj', 'f_sum', 'freq', 'kin_pa', 'w20'
+    # to
+    # id ra dec hi_size line_flux_integral central_freq pa i w20
+    # with the right physical units
+
 if __name__ == "__main__":                
     main()
-
-## Download data
-#is os.path.isfile
-#cat_file = './test2/sofia_test_output_cat.txt'
-#truth_file = '../data/development/sky_dev_truthcat.txt'
-#truth = pd.read_csv(truth_file, delim_whitespace=True)
-#
-##cat = np.genfromtxt(cat_file)
-#names = open(cat_file, 'r').readlines()[10][1:-1].split(None)
-#cat = pd.read_csv(cat_file, delim_whitespace=True, comment='#', names=names)
-#
-## Work with bright source to the left to check values
-#x0, y0 = 23, 341
-#cond = np.sqrt((cat['x']-x0)**2 + (cat['y']-y0)**2) < 5
-#source = cat[cond].iloc[0]
-#
-#print(source[['x', 'y', 'ell_maj', 'f_sum', 'freq', 'kin_pa', 'w20']])
-#print(truth.iloc[np.argmax(truth['line_flux_integral'])])
 

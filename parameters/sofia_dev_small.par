@@ -10,7 +10,7 @@ pipeline.threads           =  0
 
 # Input
 
-input.data                 =  ../data/development/sky_dev.fits
+input.data                 =  ./data/development_small/sky_dev.fits
 input.region               =  
 input.gain                 =  
 input.noise                =  
@@ -20,8 +20,8 @@ input.invert               =  false
 
 # Output
 
-output.directory           =  ./test2
-output.filename            =  sofia_test_output
+output.directory           =  ./results/development_small/
+output.filename            =  developement_small
 output.writeCatASCII       =  true
 output.writeCatXML         =  true
 output.writeCatSQL         =  false
